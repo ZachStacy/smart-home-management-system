@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operations History</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Operations History</h1>
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operation ID</th>
+                        <th>Timestamp</th>
+                        <th>Device ID</th>
+                        <th>Control ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each operations}}
+                    <tr>
+                        <td>{{this.operationID}}</td>
+                        <td>{{this.timeStamp}}</td>
+                        <td>{{this.deviceID}}</td>
+                        <td>{{this.controlID}}</td>
+                        <td>
+                            <a href='update_operation.html?operationID={{this.operationID}}'>Update</a> |
+                            <a href='delete_operation.html?operationID={{this.operationID}}'>Delete</a> |
+                            <a href='read_operation.html?operationID={{this.operationID}}'>Details</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <a href="create_operation.html" class="button">Create New Operation</a>
+        </div>
+    </div>
+</body>
+</html>

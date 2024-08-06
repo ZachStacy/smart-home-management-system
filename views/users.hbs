@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Users</h1>
+
+        <div class="section">
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data}}
+                    <tr data-value="{{this.userID}}">
+                        <td>{{this.userID}}</td>
+                        <td>{{this.username}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.phone}}</td>
+                        <td>
+                            <a href='update_user.html?userID={{this.userID}}' class="button">Update</a> |
+                            <button class="delete-button" onclick="deleteUser({{this.userID}})">Delete</button> |
+                            <a href='/read_user?userID={{this.userID}}' class="button">Details</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <a href="/create_user" class="button">Create New User</a>
+        </div>
+    </div>
+    <script src="/js/delete_user.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Types</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Device Types</h1>
+
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type ID</th>
+                        <th>Type Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each deviceTypes}}
+                    <tr>
+                        <td>{{this.typeID}}</td>
+                        <td>{{this.typeName}}</td>
+                        <td>
+                            <a href='update_deviceType.html?typeID={{this.typeID}}'>Update</a> |
+                            <a href='delete_deviceType.html?typeID={{this.typeID}}'>Delete</a> |
+                            <a href='read_deviceType.html?typeID={{this.typeID}}'>Details</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <a href="create_deviceType.html" class="button">Create New Device Type</a>
+        </div>
+    </div>
+</body>
+</html>

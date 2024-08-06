@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Controls</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Controls</h1>
+        <div class="section">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Control ID</th>
+                            <th>Control Name</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Repeat</th>
+                            <th>User ID</th>
+                            <th>Type ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each controls}}
+                        <tr>
+                            <td data-label="Control ID">{{this.controlID}}</td>
+                            <td data-label="Control Name">{{this.controlName}}</td>
+                            <td data-label="Start Time">{{this.startTime}}</td>
+                            <td data-label="End Time">{{this.endTime}}</td>
+                            <td data-label="Repeat">{{this.rep}}</td>
+                            <td data-label="User ID">{{this.userID}}</td>
+                            <td data-label="Type ID">{{this.typeID}}</td>
+                            <td data-label="Actions">
+                                <a href='update_control.html?controlID={{this.controlID}}'>Update</a> |
+                                <a href='delete_control.html?controlID={{this.controlID}}'>Delete</a> |
+                                <a href='read_control.html?controlID={{this.controlID}}'>Details</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <a href="create_control.html" class="button">Create New Control</a>
+        </div>
+    </div>
+</body>
+</html>
