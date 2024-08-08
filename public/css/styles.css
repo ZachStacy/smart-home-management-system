@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9; /* Lighter off-white background */
+    color: #333; /* Text color for consistency */
 }
 
 .container {
@@ -14,53 +15,17 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+/* Title Styles */
+.page-title {
     text-align: center;
-    margin: 20px 0;
-}
-
-.section {
-    margin: 20px 0;
-}
-
-.table-container {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-.table-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.table-buttons a.button {
-    background-color: white;
-    color: #007bff;
-    border: 1px solid #007bff;
-    font-size: 16px;
-    padding: 15px 30px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.table-buttons a.button:hover {
-    background-color: #f8f9fa;
-    color: #0056b3;
-}
-
-.table-label {
-    font-size: 18px;
+    font-size: 2.5em;
     font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
+    color: #333; /* Fixed color */
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Menu Styles */
 .menu {
     display: flex;
     flex-wrap: wrap;
@@ -69,23 +34,39 @@ table {
     margin: 30px 0;
 }
 
-.menu a.button {
-    background-color: #007bff;
+.menu a.button, .menu button {
+    background-color: #0056b3; /* Darker blue color */
     color: white;
-    font-size: 20px;
-    padding: 15px 30px; 
+    font-size: 18px;
+    padding: 15px;
     border-radius: 8px;
     font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    text-align: center; /* Center text */
+    transition: background-color 0.3s, transform 0.3s;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex; /* Use flexbox for centering */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    width: 180px; /* Wider width for uniform button size */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
-.menu a.button:hover {
-    background-color: #0056b3;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.menu a.button:hover, .menu button:hover {
+    background-color: #003d7a; /* Even darker blue for hover */
+    transform: scale(1.05);
+}
+
+.menu a.button:focus, .menu button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
 }
 
 th, td {
@@ -102,37 +83,27 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+/* Button Styles */
 button {
-    background-color: #007bff;
+    background-color: #0056b3; /* Darker blue color */
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 15px;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    display: inline-flex; /* Use flexbox for centering */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    width: 180px; /* Wider width for uniform button size */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
 button:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-a.button, button {
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    padding: 15px 30px; 
-    border-radius: 8px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-}
-
-a.button:hover, button:hover {
-    background-color: #0056b3;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    background-color: #003d7a; /* Even darker blue for hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
 }
 
 button.delete-button {
@@ -142,3 +113,25 @@ button.delete-button {
 button.delete-button:hover {
     background-color: #c82333;
 }
+
+/* Additional Styles */
+a.button, button {
+    background-color: #0056b3; /* Darker blue color */
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-flex; /* Use flexbox for centering */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+    width: 180px; /* Wider width for uniform button size */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Added shadow */
+}
+
+a.button:hover, button:hover {
+    background-color: #003d7a; /* Even darker blue for hover */
+    color: white;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
