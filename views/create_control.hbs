@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Control</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Control</h1>
+
+        <div class="section">
+            <form action="/add_control" method="POST">
+            <div>
+                <label for="input-controlName">Control Name:</label>
+                <input type="text" id="input-controlName" name="input-controlName" required>
+            </div>
+            <div>
+                <label for="input-startTime">Start Time:</label>
+                <input type="datetime-local" id="input-startTime" name="input-startTime" required>
+            </div>  
+            <div>
+                <label for="input-endTime">End Time:</label>
+                <input type="datetime-local" id="input-endTime" name="input-endTime">
+            </div>  
+            <div>
+                <label for="input-rep">Repeat:</label>
+                <input type="text" id="input-rep" name="input-rep">
+            </div>
+            <div>
+                <label for="input-user">User:</label>
+                <select id="input-user" name="input-user">
+                    <option value="">Select a User</option>
+                    {{#each users}}
+                    <option value="{{this.userID}}">{{this.username}}</option>
+                    {{/each}}
+                </select>
+            </div>  
+            <div>
+                <label for="input-type">Device Type:</label>
+                <select id="input-type" name="input-type">
+                    <option value="">Select a Device Type</option>
+                    {{#each types}}
+                    <option value="{{this.typeID}}">{{this.typeName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="button">Create Control</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

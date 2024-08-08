@@ -18,8 +18,8 @@
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Repeat</th>
-                            <th>User ID</th>
-                            <th>Type ID</th>
+                            <th>User</th>
+                            <th>Device Type</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -31,20 +31,21 @@
                             <td data-label="Start Time">{{this.startTime}}</td>
                             <td data-label="End Time">{{this.endTime}}</td>
                             <td data-label="Repeat">{{this.rep}}</td>
-                            <td data-label="User ID">{{this.userID}}</td>
-                            <td data-label="Type ID">{{this.typeID}}</td>
+                            <td data-label="User">{{this.username}}</td>
+                            <td data-label="Device Type">{{this.typeName}}</td>
                             <td data-label="Actions">
                                 <a href='update_control.html?controlID={{this.controlID}}'>Update</a> |
                                 <a href='delete_control.html?controlID={{this.controlID}}'>Delete</a> |
-                                <a href='read_control.html?controlID={{this.controlID}}'>Details</a>
+                                <a href='read_control?controlID={{this.controlID}}'>Details</a>
                             </td>
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
-            <a href="create_control.html" class="button">Create New Control</a>
+            <a href="/create_control" class="button">Create New Control</a>
         </div>
+        <a href="/" class="button">Go Back To Homepage</a>
     </div>
 </body>
 </html>

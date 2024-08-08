@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Control Details</h1>
+        <div class="section">
+            <table>
+                <tr>
+                    <th>Control ID</th>
+                    <td>{{control.controlID}}</td>
+                </tr>
+                <tr>
+                    <th>Control Name</th>
+                    <td>{{control.controlName}}</td>
+                </tr>
+                <tr>
+                    <th>Start Time</th>
+                    <td>{{control.startTime}}</td>
+                </tr>
+                <tr>
+                    <th>End Time</th>
+                    <td>{{control.endTime}}</td>
+                </tr>
+                <tr>
+                    <th>Repeat</th>
+                    <td>{{control.rep}}</td>
+                </tr>
+                <tr>
+                    <th>User</th>
+                    <td>{{control.username}}</td>
+                </tr>
+                                <tr>
+                    <th>Device Type</th>
+                    <td>{{control.typeName}}</td>
+                </tr>
+            </table>
+            <a href="/controls" class="button">Back to Controls</a>
+        </div>
+    </div>
+</body>
+</html>

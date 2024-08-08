@@ -223,7 +223,7 @@ app.post('/add_device', function(req, res) {
     let data = req.body;
 
     let query = `INSERT INTO Devices (deviceName, status, typeID) VALUES (?, ?, ?)`;
-let values = [data['input-deviceName'], data['input-status'], data['input-typeID']];
+    let values = [data['input-deviceName'], data['input-status'], data['input-typeID']];
 
     db.pool.query(query, values, function(error, rows, fields) {
         if (error) {
@@ -235,9 +235,18 @@ let values = [data['input-deviceName'], data['input-status'], data['input-typeID
     });
 });
 
+
+
+/*
+---  Control Routes Section  ---
+*/
+
 // Route for Controls
 app.get('/controls', function(req, res) {
-    let controlQuery = "SELECT * FROM Controls";
+    let controlQuery = "SELECT Controls.controlID, Controls.controlName, Controls.startTime, Controls.endTime, "
+                     + "Controls.rep, Users.username, DeviceTypes.typeName FROM Controls LEFT JOIN Users ON "
+                     + "Controls.userID = Users.userID LEFT JOIN DeviceTypes ON Controls.typeID = "
+                     + "DeviceTypes.typeID";
 
     db.pool.query(controlQuery, function(error, controlRows, fields) {
         if (error) {
@@ -248,6 +257,79 @@ app.get('/controls', function(req, res) {
         res.render('controls', { controls: controlRows });
     });
 });
+
+// Route to read control details
+app.get('/read_control', function(req, res) {
+    let controlID = parseInt(req.query.controlID);
+    if (!controlID) {
+        res.send("Control ID is missing.");
+        return;
+    }
+
+    let controlQuery = "SELECT Controls.controlID, Controls.controlName, Controls.startTime, Controls.endTime, "
+                     + "Controls.rep, Users.username, DeviceTypes.typeName FROM Controls LEFT JOIN Users ON "
+                     + "Controls.userID = Users.userID LEFT JOIN DeviceTypes ON Controls.typeID = "
+                     + "DeviceTypes.typeID WHERE Controls.controlID = ?";
+
+    db.pool.query(controlQuery, [controlID], function(error, controlRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (controlRows.length === 0) {
+            res.send("Control not found.");
+            return;
+        }
+        res.render('read_control', { control: controlRows[0] });
+    });
+});
+
+// Route for creating a new control
+app.get('/create_control', function(req, res) {
+    let query1 = "SELECT * FROM Users";
+    let query2 = "SELECT * FROM DeviceTypes";
+
+    db.pool.query(query1, function(error, userRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        db.pool.query(query2, function(error, typeRows, fields) {
+            if (error) {
+                console.error(error);
+                res.send("Error occurred while querying the database.");
+                return;
+            }
+            res.render('create_control', { users: userRows, types: typeRows });
+        });
+    });
+});
+
+// Route for adding a new control
+app.post('/add_control', function(req, res) {
+    let data = req.body;
+
+    let query = `INSERT INTO Controls (controlName, startTime, endTime, rep, userID, typeID) VALUES (?, ?, ?, ?, ?, ?)`;
+    let values = [data['input-controlName'], data['input-startTime'], data['input-endTime'], 
+                 data['input-rep'], data['input-user'], data['input-type']];
+
+    db.pool.query(query, values, function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/controls');
+        }
+    });
+});
+
+
+
+/*
+---  Control Routes Section  ---
+*/
 
 // Route for Device Types
 app.get('/devicetypes', function(req, res) {

@@ -57,11 +57,19 @@ UPDATE Devices SET deviceName = :typeName_from_input status = :status_from_input
 
 -- Controls
 -- get information of all Controls
-SELECT controlID AS ID, controlName as Control, startTime AS Start, endTime AS End, rep AS Repetition, 
-    userID, typeID FROM Controls;
+SELECT Controls.controlID, Controls.controlName, Controls.startTime, Controls.endTime,
+Controls.rep, Users.username, DeviceTypes.typeName 
+FROM Controls
+LEFT JOIN Users ON Controls.userID = Users.userID
+LEFT JOIN DeviceTypes ON Controls.typeID = DeviceTypes.typeID;
 
 -- read or get information of one Control for the update form
-SELECT * FROM Controls WHERE controlID = :controlID_selected;
+SELECT Controls.controlName, Controls.startTime, Controls.endTime,
+Controls.rep, Users.username, DeviceTypes.typeName 
+FROM Controls
+LEFT JOIN Users ON Controls.userID = Users.userID
+LEFT JOIN DeviceTypes ON Controls.typeID = DeviceTypes.typeID
+WHERE Controls.controlID = controlID_selected;
 
 -- create a new control and automatically create an operation
 INSERT INTO Controls (controlName, startTime, endTime, rep, userID, typeID) 
