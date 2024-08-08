@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Device Type</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Device Type</h1>
+
+        <div class="section">
+            <form action="/add_type" method="POST">
+                <label for="input-typeName">Device Type Name:</label>
+                <input type="text" id="input-typeName" name="input-typeName" required>
+                <button type="submit" class="button">Create Device Type</button>
+            </form>
+        </div>
+        <a href="/deviceTypes" class="button">Back To Device Types</a>
+    </div>
+</body>
+</html>

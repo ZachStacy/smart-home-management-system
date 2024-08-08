@@ -345,6 +345,59 @@ app.get('/devicetypes', function(req, res) {
     });
 });
 
+// Route to read device type details
+app.get('/read_type', function(req, res) {
+    let typeID = parseInt(req.query.typeID);
+    if (!typeID) {
+        res.send("Device Type ID is missing.");
+        return;
+    }
+
+    let typeQuery = "SELECT * FROM DeviceTypes WHERE typeID = ?";
+
+    db.pool.query(typeQuery, [typeID], function(error, typeRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (typeRows.length === 0) {
+            res.send("Device type not found.");
+            return;
+        }
+        res.render('read_type', { type: typeRows[0] });
+    });
+});
+
+// Route for creating a device type
+app.get('/create_type', function(req, res) {
+    res.render('create_type'); // Render the form template
+});
+
+// Route to handle form submission for create_user
+app.post('/add_type', function(req, res) {
+    let data = req.body;
+
+    // Use query
+    let query = `INSERT INTO DeviceTypes (typeName) VALUES (?)`;
+    let values = [data['input-typeName']];
+
+    db.pool.query(query, values, function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/deviceTypes');
+        }
+    });
+});
+
+
+
+/*
+---  Operation Routes Section  ---
+*/
+
 // Route for Operations History
 app.get('/operations', function(req, res) {
     let operationQuery = "SELECT * FROM Operations";
