@@ -3,7 +3,7 @@ const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
 
 const app = express();
-const PORT = 6288;
+const PORT = 62829;
 
 // Handlebars
 app.engine('.hbs', engine({
@@ -43,7 +43,7 @@ app.get('/create_user', function(req, res) {
 });
 
 // Route to handle form submission for create_user
-app.post('/add-user', function(req, res) {
+app.post('/add_user', function(req, res) {
     let data = req.body;
 
     // Use query
@@ -74,6 +74,79 @@ app.delete('/delete-user-ajax', function(req, res) {
         }
     });
 });
+
+
+// Route to read user details
+app.get('/read_user', function(req, res) {
+    let userID = req.query.userID;
+    if (!userID) {
+        res.send("User ID is missing.");
+        return;
+    }
+
+    let userQuery = "SELECT * FROM Users WHERE userID = ?";
+    db.pool.query(userQuery, [userID], function(error, userRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (userRows.length === 0) {
+            res.send("User not found.");
+            return;
+        }
+        res.render('read_user', { user: userRows[0] });
+    });
+});
+
+
+// Route to edit user details
+app.get('/edit_user', function(req, res) {
+    let userID = req.query.userID;
+    if (!userID) {
+        res.send("User ID is missing.");
+        return;
+    }
+
+    let userQuery = "SELECT * FROM Users WHERE userID = ?";
+    db.pool.query(userQuery, [userID], function(error, userRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (userRows.length === 0) {
+            res.send("User not found.");
+            return;
+        }
+        res.render('edit_user', { user: userRows[0] });
+    });
+});
+
+
+
+// Route to handle form submission for edit_user to update users
+// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
+app.post('/update_user', function(req, res) {
+    let userID = req.body['input-update-userID'];
+    let username = req.body['input-update-username'];
+    let email = req.body['input-update-email'];
+    let phone = req.body['input-update-phone'];
+
+    // Use query
+    let query_update = "UPDATE Users SET username = ?, email = ?, phone = ? WHERE userID = ?";
+
+    db.pool.query(query_update, [username, email, phone, userID], function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/users');
+        }
+    });
+});
+
+
 
 // Route for Devices
 app.get('/devices', function(req, res) {
@@ -158,28 +231,6 @@ app.post('/add-device', function(req, res) {
     });
 });
 
-// Route to read user details
-app.get('/read_user', function(req, res) {
-    let userID = req.query.userID;
-    if (!userID) {
-        res.send("User ID is missing.");
-        return;
-    }
-
-    let userQuery = "SELECT * FROM Users WHERE userID = ?";
-    db.pool.query(userQuery, [userID], function(error, userRows, fields) {
-        if (error) {
-            console.error(error);
-            res.send("Error occurred while querying the database.");
-            return;
-        }
-        if (userRows.length === 0) {
-            res.send("User not found.");
-            return;
-        }
-        res.render('read_user', { user: userRows[0] });
-    });
-});
 
 // Start the server
 app.listen(PORT, function() {
