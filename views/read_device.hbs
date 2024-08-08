@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Device Details</h1>
+        <div class="section">
+            <table>
+                <tr>
+                    <th>Device ID</th>
+                    <td>{{device.deviceID}}</td>
+                </tr>
+                <tr>
+                    <th>Device Name</th>
+                    <td>{{device.deviceName}}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{device.status}}</td>
+                </tr>
+                <tr>
+                    <th>Device Type</th>
+                    <td>{{device.typeName}}</td>
+                </tr>
+            </table>
+            <a href="/devices" class="button">Back to Devices</a>
+        </div>
+    </div>
+</body>
+</html>

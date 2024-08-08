@@ -37,10 +37,13 @@ UPDATE DeviceTypes SET typeName = :typeName_from_input;
 
 -- Devices
 -- get information of all devices
-SELECT * FROM Devices;
+SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName FROM Devices
+LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID;
 
 -- read or get one device's data for the update form
-SELECT * FROM Devices WHERE deviceID = :deviceID_selected;
+SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName FROM Devices
+LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID
+WHERE Devices.deviceID = deviceID_selected;
 
 -- create a new device type
 INSERT INTO Devices (deviceName, status, typeID) VALUES (:deviceName_from_input, :status_from_input, (SELECT typeID FROM DeviceTypes WHERE typeName = :typeName_selected));

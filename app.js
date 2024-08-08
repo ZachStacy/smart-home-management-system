@@ -1,3 +1,7 @@
+/*
+---  Set up Section  ---
+*/
+
 const express = require('express');
 const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
@@ -18,10 +22,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+
+
+/*
+---  Homepage Route Section  ---
+*/
+
 // Route for homepage
 app.get('/', function(req, res) {
     res.render('index');
 });
+
+
+
+/*
+---  Users Routes Section  ---
+*/
 
 // Route for Users
 app.get('/users', function(req, res) {
@@ -75,7 +91,6 @@ app.delete('/delete-user-ajax', function(req, res) {
     });
 });
 
-
 // Route to read user details
 app.get('/read_user', function(req, res) {
     let userID = req.query.userID;
@@ -98,7 +113,6 @@ app.get('/read_user', function(req, res) {
         res.render('read_user', { user: userRows[0] });
     });
 });
-
 
 // Route to edit user details
 app.get('/edit_user', function(req, res) {
@@ -123,8 +137,6 @@ app.get('/edit_user', function(req, res) {
     });
 });
 
-
-
 // Route to handle form submission for edit_user to update users
 // source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_user', function(req, res) {
@@ -148,10 +160,15 @@ app.post('/update_user', function(req, res) {
 
 
 
+/*
+---  Device Routes Section  ---
+*/
+
 // Route for Devices
 app.get('/devices', function(req, res) {
-    let deviceQuery = "SELECT * FROM Devices";
-    let deviceTypeQuery = "SELECT * FROM DeviceTypes";
+    let deviceQuery = "SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName " 
+    + "FROM Devices LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID";
+
 
     db.pool.query(deviceQuery, function(error, deviceRows, fields) {
         if (error) {
@@ -159,16 +176,62 @@ app.get('/devices', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
+        res.render('devices', { data: deviceRows});
+    });
+});
 
-        db.pool.query(deviceTypeQuery, function(error, deviceTypeRows, fields) {
-            if (error) {
-                console.error(error);
-                res.send("Error occurred while querying the database.");
-                return;
-            }
+// Route to read device details
+app.get('/read_device', function(req, res) {
+    let deviceID = parseInt(req.query.deviceID);
+    if (!deviceID) {
+        res.send("Device ID is missing.");
+        return;
+    }
 
-            res.render('devices', { devices: deviceRows, deviceTypes: deviceTypeRows });
-        });
+    let deviceQuery = "SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName "
+                    + "FROM Devices LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID " 
+                    + "WHERE Devices.deviceID = ?";
+    db.pool.query(deviceQuery, [deviceID], function(error, deviceRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (deviceRows.length === 0) {
+            res.send("Device not found.");
+            return;
+        }
+        res.render('read_device', { device: deviceRows[0] });
+    });
+});
+
+// Route for creating a new device
+app.get('/create_device', function(req, res) {
+    let createDeviceQuery = "SELECT * FROM DeviceTypes";
+    db.pool.query(createDeviceQuery, function(error, typeRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        res.render('create_device', { data: typeRows });
+    });
+});
+
+// Route for adding a new device
+app.post('/add_device', function(req, res) {
+    let data = req.body;
+
+    let query = `INSERT INTO Devices (deviceName, status, typeID) VALUES (?, ?, ?)`;
+let values = [data['input-deviceName'], data['input-status'], data['input-typeID']];
+
+    db.pool.query(query, values, function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/devices');
+        }
     });
 });
 
@@ -214,22 +277,7 @@ app.get('/operations', function(req, res) {
     });
 });
 
-// Route for creating a new device
-app.post('/add-device', function(req, res) {
-    let data = req.body;
 
-    let query = `INSERT INTO Devices (deviceName, status, typeID) VALUES (?, ?, ?)`;
-    let values = [data['input-deviceName'], data['input-status'], data['input-deviceType']];
-
-    db.pool.query(query, values, function(error, rows, fields) {
-        if (error) {
-            console.error(error);
-            res.sendStatus(400);
-        } else {
-            res.redirect('/devices');
-        }
-    });
-});
 
 
 // Start the server

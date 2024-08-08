@@ -15,28 +15,29 @@
                         <th>Device ID</th>
                         <th>Device Name</th>
                         <th>Status</th>
-                        <th>Type ID</th>
+                        <th>Device Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each devices}}
+                    {{#each data}}
                     <tr>
                         <td>{{this.deviceID}}</td>
                         <td>{{this.deviceName}}</td>
                         <td>{{this.status}}</td>
-                        <td>{{this.typeID}}</td>
+                        <td>{{this.typeName}}</td>
                         <td>
-                            <a href='update_device.html?deviceID={{this.deviceID}}'>Update</a> |
+                            <a href='update_device?deviceID={{this.deviceID}}'>Update</a> |
                             <a href='delete_device.html?deviceID={{this.deviceID}}'>Delete</a> |
-                            <a href='read_device.html?deviceID={{this.deviceID}}'>Details</a>
+                            <a href='read_device?deviceID={{this.deviceID}}'>Details</a>
                         </td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
-            <a href="create_device.html" class="button">Create New Device</a>
+        <a href="/create_device" class="button">Create New Device</a>
         </div>
+        <a href="/" class="button">Go Back To Homepage</a>
     </div>
 </body>
 </html>
