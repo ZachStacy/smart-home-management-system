@@ -30,7 +30,7 @@ app.use(express.static('public'));
 
 // Route for homepage
 app.get('/', function(req, res) {
-    res.render('index');
+    res.render('index',{ title: 'Smart Home'});
 });
 
 
@@ -40,16 +40,16 @@ app.get('/', function(req, res) {
 */
 
 // Route for Users
+// Users Route
 app.get('/users', function(req, res) {
     let userQuery = "SELECT * FROM Users";
-
     db.pool.query(userQuery, function(error, userRows, fields) {
         if (error) {
             console.error(error);
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('users', { data: userRows });
+        res.render('users', { title: 'Users', data: userRows });
     });
 });
 
@@ -125,7 +125,7 @@ app.get('/read_user', function(req, res) {
             res.send("User not found.");
             return;
         }
-        res.render('read_user', { user: userRows[0] });
+        res.render('read_user', { title: 'User Details', user: userRows[0] });
     });
 });
 
@@ -148,7 +148,7 @@ app.get('/edit_user', function(req, res) {
             res.send("User not found.");
             return;
         }
-        res.render('edit_user', { user: userRows[0] });
+        res.render('edit_user', { title: 'Edit User', user: userRows[0] });
     });
 });
 
@@ -191,7 +191,7 @@ app.get('/devices', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('devices', { data: deviceRows});
+        res.render('devices', { title: 'Devices', data: deviceRows });
     });
 });
 
@@ -216,7 +216,7 @@ app.get('/read_device', function(req, res) {
             res.send("Device not found.");
             return;
         }
-        res.render('read_device', { device: deviceRows[0] });
+        res.render('read_device', { title: 'Device Details', device: deviceRows[0] });
     });
 });
 
@@ -229,7 +229,7 @@ app.get('/create_device', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('create_device', { data: typeRows });
+        res.render('create_device', { title: 'Create Device', data: typeRows });
     });
 });
 
@@ -269,7 +269,7 @@ app.get('/controls', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('controls', { controls: controlRows });
+        res.render('controls', { title: 'Controls', controls: controlRows });
     });
 });
 
@@ -296,7 +296,7 @@ app.get('/read_control', function(req, res) {
             res.send("Control not found.");
             return;
         }
-        res.render('read_control', { control: controlRows[0] });
+        res.render('read_control', { title: 'Control Details', control: controlRows[0] });
     });
 });
 
@@ -317,7 +317,7 @@ app.get('/create_control', function(req, res) {
                 res.send("Error occurred while querying the database.");
                 return;
             }
-            res.render('create_control', { users: userRows, types: typeRows });
+            res.render('create_control', { title: 'Create Control', users: userRows, types: typeRows });
         });
     });
 });
@@ -341,7 +341,6 @@ app.post('/add_control', function(req, res) {
 });
 
 
-
 /*
 ---  Control Routes Section  ---
 */
@@ -356,7 +355,7 @@ app.get('/devicetypes', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('deviceTypes', { deviceTypes: deviceTypeRows });
+        res.render('deviceTypes', { title: 'Device Types', deviceTypes: deviceTypeRows });
     });
 });
 
@@ -380,13 +379,13 @@ app.get('/read_type', function(req, res) {
             res.send("Device type not found.");
             return;
         }
-        res.render('read_type', { type: typeRows[0] });
+        res.render('read_type', { title: 'Device Type Details', type: typeRows[0] });
     });
 });
 
 // Route for creating a device type
 app.get('/create_type', function(req, res) {
-    res.render('create_type'); // Render the form template
+    res.render('create_type', { title: 'Create Device Type' });
 });
 
 // Route to handle form submission for create_user
@@ -408,7 +407,6 @@ app.post('/add_type', function(req, res) {
 });
 
 
-
 /*
 ---  Operation Routes Section  ---
 */
@@ -426,7 +424,7 @@ app.get('/operations', function(req, res) {
             res.send("Error occurred while querying the database.");
             return;
         }
-        res.render('operations', { operations: operationRows });
+        res.render('operations', { title: 'Operations History', operations: operationRows });
     });
 });
 
@@ -453,7 +451,7 @@ app.get('/read_operation', function(req, res) {
             res.send("Operation not found.");
             return;
         }
-        res.render('read_operation', { operation: opRows[0] });
+        res.render('read_operation', { title: 'Operation Details', operation: opRows[0] });
     });
 });
 
@@ -474,7 +472,7 @@ app.get('/create_operation', function(req, res) {
                 res.send("Error occurred while querying the database.");
                 return;
             }
-            res.render('create_operation', { devices: deviceRows, controls: controlRows });
+            res.render('create_operation', { title: 'Create Operation', devices: deviceRows, controls: controlRows });
         });
     });
 });
