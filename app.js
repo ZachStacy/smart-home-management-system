@@ -400,7 +400,10 @@ app.post('/add_type', function(req, res) {
 
 // Route for Operations History
 app.get('/operations', function(req, res) {
-    let operationQuery = "SELECT * FROM Operations";
+    let operationQuery = "SELECT Operations.operationID, Operations.timeStamp, Devices.deviceName, "
+                       + "Controls.controlName FROM Operations LEFT JOIN Devices ON "
+                       + "Operations.deviceID = Devices.deviceID LEFT JOIN Controls ON "
+                       + "Operations.controlID = Controls.controlID";
 
     db.pool.query(operationQuery, function(error, operationRows, fields) {
         if (error) {
@@ -412,9 +415,77 @@ app.get('/operations', function(req, res) {
     });
 });
 
+// Route to read operation details
+app.get('/read_operation', function(req, res) {
+    let opID = parseInt(req.query.operationID);
+    if (!opID) {
+        res.send("Operation ID is missing.");
+        return;
+    }
+
+    let opQuery = "SELECT Operations.operationID, Operations.timeStamp, Devices.deviceName, "
+                + "Controls.controlName FROM Operations LEFT JOIN Devices ON "
+                + "Operations.deviceID = Devices.deviceID LEFT JOIN Controls ON "
+                + "Operations.controlID = Controls.controlID WHERE Operations.operationID = ?";
+
+    db.pool.query(opQuery, [opID], function(error, opRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (opRows.length === 0) {
+            res.send("Operation not found.");
+            return;
+        }
+        res.render('read_operation', { operation: opRows[0] });
+    });
+});
+
+// Route for creating a new operation
+app.get('/create_operation', function(req, res) {
+    let query1 = "SELECT * FROM Devices";
+    let query2 = "SELECT * FROM Controls";
+
+    db.pool.query(query1, function(error, deviceRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        db.pool.query(query2, function(error, controlRows, fields) {
+            if (error) {
+                console.error(error);
+                res.send("Error occurred while querying the database.");
+                return;
+            }
+            res.render('create_operation', { devices: deviceRows, controls: controlRows });
+        });
+    });
+});
+
+// Route for adding a new operation
+app.post('/add_operation', function(req, res) {
+    let data = req.body;
+
+    let query = `INSERT INTO Operations (timeStamp, deviceID, controlID) VALUES (?, ?, ?)`;
+    let values = [data['input-timeStamp'], data['input-device'], data['input-control']];
+
+    db.pool.query(query, values, function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/operations');
+        }
+    });
+});
 
 
 
+/*
+---  Start Server Section  ---
+*/
 // Start the server
 app.listen(PORT, function() {
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.');

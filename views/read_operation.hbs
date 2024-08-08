@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operation Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Operation Details</h1>
+        <div class="section">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <td>{{operation.operationID}}</td>
+                </tr>
+                <tr>
+                    <th>Time</th>
+                    <td>{{operation.timeStamp}}</td>
+                </tr>
+                <tr>
+                    <th>Device</th>
+                    <td>{{operation.deviceName}}</td>
+                </tr>
+                <tr>
+                    <th>Control</th>
+                    <td>{{operation.controlName}}</td>
+                </tr>
+            </table>
+            <a href="/operations" class="button">Back to Operations History</a>
+        </div>
+    </div>
+</body>
+</html>

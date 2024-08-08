@@ -94,12 +94,10 @@ SET controlName = :controlName_from_input,
 
 --Opeartions
 --Browse all operations latest first
-SELECT Operations.operationID AS ID, Operations.timeStamp AS OperationTime, Users.username AS User, Controls.controlName as Control,
+SELECT Operations.operationID AS ID, Operations.timeStamp AS OperationTime, Controls.controlName as Control,
      Controls.startTime AS Start, Controls.endTime AS End, Controls.rep AS Repetition, Devices.deviceName AS Device FROM Operations
 LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
-LEFT JOIN Controls ON Operations.controlID = Controls.controlID
-LEFT JOIN Users ON Controls.userID = Users.userID
-ORDER BY operationID DESC;
+LEFT JOIN Controls ON Operations.controlID = Controls.controlID;
 
 -- read or get information of one Control for the update form
 SELECT * FROM Operations WHERE operationID = :operationID_selected;

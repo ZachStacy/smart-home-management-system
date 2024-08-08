@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Operation</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Operation</h1>
+
+        <div class="section">
+            <form action="/add_operation" method="POST">
+            <div>
+                <label for="input-timeStamp">Timestamp:</label>
+                <input type="datetime-local" id="input-timeStamp" name="input-timeStamp" required>
+            </div>
+            <div>
+                <label for="input-device">Device:</label>
+                <select id="input-device" name="input-device">
+                    <option value="">Select a Device</option>
+                    {{#each devices}}
+                    <option value="{{this.deviceID}}">{{this.deviceName}}</option>
+                    {{/each}}
+                </select>
+            </div>  
+            <div>
+                <label for="input-control">Control:</label>
+                <select id="input-control" name="input-control">
+                    <option value="">Select a Control</option>
+                    {{#each controls}}
+                    <option value="{{this.controlID}}">{{this.controlName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="button">Create Operation</button>
+            </div>
+            </form>
+        </div>
+        <a href="/controls" class="button">Back To Controls</a>
+    </div>
+</body>
+</html>

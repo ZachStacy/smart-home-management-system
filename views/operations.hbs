@@ -12,10 +12,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Operation ID</th>
+                        <th>ID</th>
                         <th>Timestamp</th>
-                        <th>Device ID</th>
-                        <th>Control ID</th>
+                        <th>Device</th>
+                        <th>Control</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -24,19 +24,20 @@
                     <tr>
                         <td>{{this.operationID}}</td>
                         <td>{{this.timeStamp}}</td>
-                        <td>{{this.deviceID}}</td>
-                        <td>{{this.controlID}}</td>
+                        <td>{{this.deviceName}}</td>
+                        <td>{{this.controlName}}</td>
                         <td>
-                            <a href='update_operation.html?operationID={{this.operationID}}'>Update</a> |
-                            <a href='delete_operation.html?operationID={{this.operationID}}'>Delete</a> |
-                            <a href='read_operation.html?operationID={{this.operationID}}'>Details</a>
+                            <a href='update_operation?operationID={{this.operationID}}'>Update</a> |
+                            <a href='delete_operation?operationID={{this.operationID}}'>Delete</a> |
+                            <a href='read_operation?operationID={{this.operationID}}'>Details</a>
                         </td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
-            <a href="create_operation.html" class="button">Create New Operation</a>
+            <a href="create_operation" class="button">Create New Operation</a>
         </div>
+        <a href="/" class="button">Go Back To Homepage</a>
     </div>
 </body>
 </html>
