@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Operations History</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- Added jQuery -->
 </head>
 <body>
     <div class="container">
         <h1>Operations History</h1>
         <div class="section">
-            <table>
+            <table id="operations-table"> <!-- Added ID to the table -->
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -21,15 +22,15 @@
                 </thead>
                 <tbody>
                     {{#each operations}}
-                    <tr>
+                    <tr data-value="{{this.operationID}}">
                         <td>{{this.operationID}}</td>
                         <td>{{this.timeStamp}}</td>
                         <td>{{this.deviceName}}</td>
                         <td>{{this.controlName}}</td>
                         <td>
-                            <a href='update_operation?operationID={{this.operationID}}'>Update</a> |
-                            <a href='delete_operation?operationID={{this.operationID}}'>Delete</a> |
-                            <a href='read_operation?operationID={{this.operationID}}'>Details</a>
+                            <a href='update_operation?operationID={{this.operationID}}' class="button">Update</a> |
+                            <button class="delete-button" onclick="deleteOperation({{this.operationID}})">Delete</button> |
+                            <a href='read_operation?operationID={{this.operationID}}' class="button">Details</a>
                         </td>
                     </tr>
                     {{/each}}
@@ -39,5 +40,6 @@
         </div>
         <a href="/" class="button">Go Back To Homepage</a>
     </div>
+    <script src="/js/delete_operations.js"></script>
 </body>
 </html>

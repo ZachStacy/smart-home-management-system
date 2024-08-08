@@ -7,7 +7,7 @@ const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
 
 const app = express();
-const PORT = 62829;
+const PORT = 6289;
 
 // Handlebars
 app.engine('.hbs', engine({
@@ -87,6 +87,21 @@ app.delete('/delete-user-ajax', function(req, res) {
             res.sendStatus(400);
         } else {
             res.sendStatus(204);
+        }
+    });
+});
+
+// Route to handle deleting operation via AJAX
+app.delete('/delete-operation-ajax', function(req, res) {
+    let operationID = parseInt(req.body.id);
+    let deleteOperationQuery = 'DELETE FROM Operations WHERE operationID = ?';
+
+    db.pool.query(deleteOperationQuery, [operationID], function(error, results) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204); // Successfully deleted
         }
     });
 });
