@@ -54,6 +54,13 @@ table {
     color: #0056b3;
 }
 
+.table-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
 .menu {
     display: flex;
     flex-wrap: wrap;

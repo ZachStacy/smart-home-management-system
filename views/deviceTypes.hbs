@@ -7,34 +7,46 @@
 </head>
 <body>
     <div class="container">
-        <h1>Device Types</h1>
+        <!-- Navigation Pane -->
+        <nav class="menu">
+            <a href="/" class="button">Home</a>
+            <a href="/users" class="button">Users</a>
+            <a href="/devices" class="button">Devices</a>
+            <a href="/controls" class="button">Controls</a>
+            <a href="/devicetypes" class="button">Device Types</a>
+            <a href="/operations" class="button">Operations History</a>
+        </nav>
 
-        <div class="section">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type ID</th>
-                        <th>Type Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each deviceTypes}}
-                    <tr>
-                        <td>{{this.typeID}}</td>
-                        <td>{{this.typeName}}</td>
-                        <td>
-                            <a href='update_deviceType.html?typeID={{this.typeID}}'>Update</a> |
-                            <a href='delete_deviceType.html?typeID={{this.typeID}}'>Delete</a> |
-                            <a href='read_type?typeID={{this.typeID}}'>Details</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            <a href="create_type" class="button">Create New Device Type</a>
+        <!-- Space between navigation and table -->
+        <div class="section" style="margin-top: 50px;">
+            <h1>Device Types</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type ID</th>
+                            <th>Type Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each deviceTypes}}
+                        <tr>
+                            <td>{{this.typeID}}</td>
+                            <td>{{this.typeName}}</td>
+                            <td>
+                                <a href='update_deviceType.html?typeID={{this.typeID}}' class="button">Update</a> |
+                                <a href='delete_deviceType.html?typeID={{this.typeID}}' class="button">Delete</a> |
+                                <a href='read_type?typeID={{this.typeID}}' class="button">Details</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <a href="create_type" class="button">Create New Device Type</a>
+            </div>
+            <a href="/" class="button">Go Back To Homepage</a>
         </div>
-        <a href="/" class="button">Go Back To Homepage</a>
     </div>
 </body>
 </html>

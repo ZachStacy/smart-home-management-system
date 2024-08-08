@@ -4,41 +4,54 @@
     <meta charset="UTF-8">
     <title>Operations History</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- Added jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Operations History</h1>
-        <div class="section">
-            <table id="operations-table"> <!-- Added ID to the table -->
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Timestamp</th>
-                        <th>Device</th>
-                        <th>Control</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each operations}}
-                    <tr data-value="{{this.operationID}}">
-                        <td>{{this.operationID}}</td>
-                        <td>{{this.timeStamp}}</td>
-                        <td>{{this.deviceName}}</td>
-                        <td>{{this.controlName}}</td>
-                        <td>
-                            <a href='update_operation?operationID={{this.operationID}}' class="button">Update</a> |
-                            <button class="delete-button" onclick="deleteOperation({{this.operationID}})">Delete</button> |
-                            <a href='read_operation?operationID={{this.operationID}}' class="button">Details</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            <a href="create_operation" class="button">Create New Operation</a>
+        <!-- Navigation Pane -->
+        <nav class="menu">
+            <a href="/" class="button">Home</a>
+            <a href="/users" class="button">Users</a>
+            <a href="/devices" class="button">Devices</a>
+            <a href="/controls" class="button">Controls</a>
+            <a href="/devicetypes" class="button">Device Types</a>
+            <a href="/operations" class="button">Operations History</a>
+        </nav>
+
+        <!-- Space between navigation and table -->
+        <div class="section" style="margin-top: 50px;">
+            <h1>Operations History</h1>
+            <div class="table-container">
+                <table id="operations-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Timestamp</th>
+                            <th>Device</th>
+                            <th>Control</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each operations}}
+                        <tr data-value="{{this.operationID}}">
+                            <td>{{this.operationID}}</td>
+                            <td>{{this.timeStamp}}</td>
+                            <td>{{this.deviceName}}</td>
+                            <td>{{this.controlName}}</td>
+                            <td>
+                                <a href='update_operation?operationID={{this.operationID}}' class="button">Update</a> |
+                                <button class="delete-button" onclick="deleteOperation({{this.operationID}})">Delete</button> |
+                                <a href='read_operation?operationID={{this.operationID}}' class="button">Details</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <a href="create_operation" class="button">Create New Operation</a>
+            </div>
+            <a href="/" class="button">Go Back To Homepage</a>
         </div>
-        <a href="/" class="button">Go Back To Homepage</a>
     </div>
     <script src="/js/delete_operations.js"></script>
 </body>
