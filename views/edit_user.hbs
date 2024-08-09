@@ -11,22 +11,22 @@
         <form action="/update_user" method="POST">
             <input type="hidden" id="input-update-userID" name="input-update-userID" value="{{user.userID}}">
             <div>
-                <label for="username">Username: </label>
+                <label for="input-update-username">Username: </label>
                 <input type="text" id="input-update-username" name="input-update-username" value="{{user.username}}" required>
             </div>
             <div>
-                <label for="email">Email: </label>
+                <label for="input-update-email">Email: </label>
                 <input type="email" id="input-update-email" name="input-update-email" value="{{user.email}}" required>
             </div>
             <div>
-                <label for="phone">Phone: </label>
+                <label for="input-update-phone">Phone: </label>
                 <input type="tel" id="input-update-phone" name="input-update-phone" value="{{user.phone}}" required>
             </div>
             <div>
                 <button type="submit" class="button">Update User</button>
             </div>
         </form>
+        <a href="/users" class="button">Back To Users</a>
     </div>
-    <script src="update_user.js"></script>
 </body>
 </html>

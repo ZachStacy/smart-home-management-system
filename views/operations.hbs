@@ -28,10 +28,10 @@
                         <td>{{this.deviceName}}</td>
                         <td>{{this.controlName}}</td>
                         <td>
-                            <a href='update_operation?operationID={{this.operationID}}' class="button">Update</a> |
+                            <a href='/edit_operation?operationID={{this.operationID}}' class="button">Update</a> |
                             <button class="delete-button" onclick="deleteOperation({{this.operationID}})">Delete</button> |
-                            <a href='read_operation?operationID={{this.operationID}}' class="button">Details</a>
-                        </td>
+                            <a href='/read_operation?operationID={{this.operationID}}' class="button">Details</a>
+                    </td>
                     </tr>
                     {{/each}}
                 </tbody>

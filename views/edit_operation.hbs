@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Operation</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Operation ID {{operation.operationID}}</h1>
+        <form action="/update_operation" method="POST">
+            <input type="hidden" id="input-update-opID" name="input-update-opID" value="{{operation.operationID}}">
+            <div>
+                <label for="input-update-timeStamp">Timestamp: </label>
+                <input type="text" id="input-update-timeStamp" name="input-update-timeStamp" value="{{operation.timeStamp}}" required>
+                {{!-- The following snippet is from: 
+                https://stackoverflow.com/questions/30048323/how-to-add-placeholder-input-type-datetime-local-field--}}   
+                <script>
+                var dtt = document.getElementById('input-update-timeStamp')
+                dtt.onfocus = function (event) {
+                    this.type = 'datetime-local';
+                    this.focus();
+                }
+                </script>
+            </div>
+            <div>
+                <label for="input-update-device">Device:</label>
+                <select id="input-update-device" name="input-update-device" required>
+                    <option value="{{operation.deviceID}}">{{operation.deviceName}}&#40;OG&#41;</option>
+                    {{#each devices}}
+                    <option value="{{this.deviceID}}">{{this.deviceName}}</option>
+                    {{/each}}
+                </select>
+            </div>  
+            <div>
+                <label for="input-update-control">Control:</label>
+                <select id="input-update-control" name="input-update-control" required>
+                    <option value="{{operation.controlID}}">{{operation.controlName}}&#40;OG&#41;</option>
+                    {{#each controls}}
+                    <option value="{{this.controlID}}">{{this.controlName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="button">Update Operation</button>
+            </div>
+        </form>
+        <a href="/operations" class="button">Back To Operations</a>
+    </div>
+</body>
+</html>

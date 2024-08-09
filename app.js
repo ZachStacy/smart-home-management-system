@@ -7,7 +7,7 @@ const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
 
 const app = express();
-const PORT = 6289;
+const PORT = 62829;
 
 // Handlebars
 app.engine('.hbs', engine({
@@ -496,7 +496,85 @@ app.post('/add_operation', function(req, res) {
     });
 });
 
+// Route to handle deleting operation via AJAX
+app.delete('/delete-operation-ajax', function(req, res) {
+    let operationID = parseInt(req.body.id);
+    let deleteOperationQuery = 'DELETE FROM Operations WHERE operationID = ?';
 
+    db.pool.query(deleteOperationQuery, [operationID], function(error, results) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204); // Successfully deleted
+        }
+    });
+});
+
+// Route to edit operation details
+app.get('/edit_operation', function(req, res) {
+    let opID = req.query.operationID;
+    if (!opID) {
+        res.send("Operation ID is missing.");
+        return;
+    }
+
+    let query1 = "SELECT Operations.operationID, Operations.timeStamp, Devices.deviceID, Devices.deviceName, "
+               + "Controls.controlID, Controls.controlName FROM Operations LEFT JOIN Devices ON Operations.deviceID "
+               + "= Devices.deviceID LEFT JOIN Controls ON Operations.controlID = Controls.controlID WHERE "
+               + "Operations.operationID = ?";
+    let query2 = "SELECT * FROM Devices";
+    let query3 = "SELECT * FROM Controls";
+    db.pool.query(query1, [opID], function(error, opRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (opRows.length === 0) {
+            res.send("Operation not found.");
+            return;
+        }
+
+        db.pool.query(query2, function(error, deviceRows, fields) {
+            if (error) {
+                console.error(error);
+                res.send("Error occurred while querying the database.");
+                return;
+            }
+            db.pool.query(query3, function(error, controlRows, fields) {
+                if (error) {
+                    console.error(error);
+                    res.send("Error occurred while querying the database.");
+                    return;
+                }
+                res.render('edit_operation', { operation: opRows[0], devices: deviceRows, controls: controlRows });
+            })
+        })
+        
+    });
+});
+
+// Route to handle form submission for edit_user to update users
+// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
+app.post('/update_operation', function(req, res) {
+    let operationID = req.body['input-update-opID'];
+    let timeStamp = req.body['input-update-timeStamp'];
+    let deviceID = req.body['input-update-device'];
+    let controlID = req.body['input-update-control'];
+
+    // Use query
+    let query_update = "UPDATE Operations SET timeStamp = ?, deviceID = ?, controlID = ? WHERE operationID = ?";
+
+    db.pool.query(query_update, [timeStamp, deviceID, controlID, operationID], function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/operations');
+        }
+    });
+});
 
 /*
 ---  Start Server Section  ---
