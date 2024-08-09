@@ -21,7 +21,7 @@
         <div class="section" style="margin-top: 50px;">
             <h1 class="page-title">Devices</h1>
             <div class="table-container">
-                <table>
+                <table id="devices-table">
                     <thead>
                         <tr>
                             <th>Device ID</th>
@@ -40,7 +40,7 @@
                             <td>{{this.typeName}}</td>
                             <td>
                                 <a href='update_device?deviceID={{this.deviceID}}' class="button">Update</a> |
-                                <a href='delete_device.html?deviceID={{this.deviceID}}' class="button">Delete</a> |
+                                <button class="delete-button" onclick="deleteDevice({{this.deviceID}})">Delete</button> |
                                 <a href='read_device?deviceID={{this.deviceID}}' class="button">Details</a>
                             </td>
                         </tr>
@@ -51,5 +51,6 @@
             </div>
         </div>
     </div>
+    <script src="/js/delete_device.js"></script>
 </body>
 </html>

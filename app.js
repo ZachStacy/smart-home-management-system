@@ -91,21 +91,6 @@ app.delete('/delete-user-ajax', function(req, res) {
     });
 });
 
-// Route to handle deleting operation via AJAX
-app.delete('/delete-operation-ajax', function(req, res) {
-    let operationID = parseInt(req.body.id);
-    let deleteOperationQuery = 'DELETE FROM Operations WHERE operationID = ?';
-
-    db.pool.query(deleteOperationQuery, [operationID], function(error, results) {
-        if (error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            res.sendStatus(204); // Successfully deleted
-        }
-    });
-});
-
 // Route to read user details
 app.get('/read_user', function(req, res) {
     let userID = req.query.userID;
@@ -246,6 +231,21 @@ app.post('/add_device', function(req, res) {
             res.sendStatus(400);
         } else {
             res.redirect('/devices');
+        }
+    });
+});
+
+// Route to handle deleting device via AJAX
+app.delete('/delete-device-ajax', function(req, res) {
+    let deviceID = parseInt(req.body.id);
+    let deleteQuery = 'DELETE FROM Devices WHERE deviceID = ?';
+
+    db.pool.query(deleteQuery, [deviceID], function(error, results) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
         }
     });
 });
