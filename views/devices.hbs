@@ -33,7 +33,7 @@
                     </thead>
                     <tbody>
                         {{#each data}}
-                        <tr>
+                        <tr data-value="{{this.deviceID}}">
                             <td>{{this.deviceID}}</td>
                             <td>{{this.deviceName}}</td>
                             <td>{{this.status}}</td>
