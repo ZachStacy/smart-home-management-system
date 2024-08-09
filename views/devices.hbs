@@ -7,37 +7,49 @@
 </head>
 <body>
     <div class="container">
-        <h1>Devices</h1>
-        <div class="section">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Device ID</th>
-                        <th>Device Name</th>
-                        <th>Status</th>
-                        <th>Device Type</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each data}}
-                    <tr>
-                        <td>{{this.deviceID}}</td>
-                        <td>{{this.deviceName}}</td>
-                        <td>{{this.status}}</td>
-                        <td>{{this.typeName}}</td>
-                        <td>
-                            <a href='update_device?deviceID={{this.deviceID}}'>Update</a> |
-                            <a href='delete_device.html?deviceID={{this.deviceID}}'>Delete</a> |
-                            <a href='read_device?deviceID={{this.deviceID}}'>Details</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        <a href="/create_device" class="button">Create New Device</a>
+        <!-- Navigation Pane -->
+        <nav class="menu">
+            <a href="/" class="button">Home</a>
+            <a href="/users" class="button">Users</a>
+            <a href="/devices" class="button">Devices</a>
+            <a href="/controls" class="button">Controls</a>
+            <a href="/devicetypes" class="button">Device Types</a>
+            <a href="/operations" class="button">Operations History</a>
+        </nav>
+
+        <!-- Space between navigation and table -->
+        <div class="section" style="margin-top: 50px;">
+            <h1 class="page-title">Devices</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Device Name</th>
+                            <th>Status</th>
+                            <th>Device Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data}}
+                        <tr>
+                            <td>{{this.deviceID}}</td>
+                            <td>{{this.deviceName}}</td>
+                            <td>{{this.status}}</td>
+                            <td>{{this.typeName}}</td>
+                            <td>
+                                <a href='update_device?deviceID={{this.deviceID}}' class="button">Update</a> |
+                                <a href='delete_device.html?deviceID={{this.deviceID}}' class="button">Delete</a> |
+                                <a href='read_device?deviceID={{this.deviceID}}' class="button">Details</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <a href="/create_device" class="button">Create New Device</a>
+            </div>
         </div>
-        <a href="/" class="button">Go Back To Homepage</a>
     </div>
 </body>
 </html>
