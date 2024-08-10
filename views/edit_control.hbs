@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Control</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Control ID {{control.controlID}}</h1>
+        <form action="/update_control" method="POST">
+            <input type="hidden" id="input-update-controlID" name="input-update-controlID" value="{{control.controlID}}">
+            <div>
+                <label for="input-update-controlName">Control Name: </label>
+                <input type="text" id="input-update-controlName" name="input-update-controlName" value="{{control.controlName}}" required>
+            </div>
+            <div>
+                <label for="input-update-startTime">Start Time: </label>
+                <input type="datetime-local" id="input-update-startTime" name="input-update-startTime" value="{{control.startTime}}" required>
+            </div>
+            <div>
+                <label for="input-update-endTime">End Time: </label>
+                <input type="datetime-local" id="input-update-endTime" name="input-update-endTime" value="{{control.endTime}}">
+            </div>
+            <div>
+                <label for="input-update-rep">Repeat: </label>
+                <input type="text" id="input-update-rep" name="input-update-rep" value="{{control.rep}}">
+            </div>
+            <div>
+                <label for="input-update-user">User:</label>
+                <select id="input-update-user" name="input-update-user">
+                    <option value="{{control.userID}}">{{control.username}}&#40;OG&#41;</option>
+                    {{#each users}}
+                    <option value="{{this.userID}}">{{this.username}}</option>
+                    {{/each}}
+                    <option value="">&#40;Remove User&#41;</option>
+                </select>
+            </div>  
+            <div>
+                <label for="input-update-type">Device Type:</label>
+                <select id="input-update-type" name="input-update-type">
+                    <option value="{{control.typeID}}">{{control.typeName}}&#40;OG&#41;</option>
+                    {{#each types}}
+                    <option value="{{this.typeID}}">{{this.typeName}}</option>
+                    {{/each}}
+                    <option value="">&#40;Remove Device Type&#41;</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="button">Update Control</button>
+            </div>
+        </form>
+        <a href="/controls" class="button">Back To Controls</a>
+    </div>
+</body>
+</html>

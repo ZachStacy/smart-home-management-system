@@ -12,16 +12,7 @@
             <input type="hidden" id="input-update-opID" name="input-update-opID" value="{{operation.operationID}}">
             <div>
                 <label for="input-update-timeStamp">Timestamp: </label>
-                <input type="text" id="input-update-timeStamp" name="input-update-timeStamp" value="{{operation.timeStamp}}" required>
-                {{!-- The following snippet is from: 
-                https://stackoverflow.com/questions/30048323/how-to-add-placeholder-input-type-datetime-local-field--}}   
-                <script>
-                var dtt = document.getElementById('input-update-timeStamp')
-                dtt.onfocus = function (event) {
-                    this.type = 'datetime-local';
-                    this.focus();
-                }
-                </script>
+                <input type="datetime-local" id="input-update-timeStamp" name="input-update-timeStamp" value="{{operation.timeStamp}}" required>
             </div>
             <div>
                 <label for="input-update-device">Device:</label>

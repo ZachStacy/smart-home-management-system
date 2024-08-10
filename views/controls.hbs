@@ -21,7 +21,7 @@
         <div class="section" style="margin-top: 50px;">
             <h1 class="page-title">Controls</h1>
             <div class="table-container">
-                <table>
+                <table id="controls-table">
                     <thead>
                         <tr>
                             <th>Control ID</th>
@@ -36,7 +36,7 @@
                     </thead>
                     <tbody>
                         {{#each controls}}
-                        <tr>
+                        <tr data-value="{{this.controlID}}">
                             <td data-label="Control ID">{{this.controlID}}</td>
                             <td data-label="Control Name">{{this.controlName}}</td>
                             <td data-label="Start Time">{{this.startTime}}</td>
@@ -45,8 +45,8 @@
                             <td data-label="User">{{this.username}}</td>
                             <td data-label="Device Type">{{this.typeName}}</td>
                             <td data-label="Actions">
-                                <a href='update_control.html?controlID={{this.controlID}}' class="button">Update</a> |
-                                <a href='delete_control.html?controlID={{this.controlID}}' class="button">Delete</a> |
+                                <a href='edit_control?controlID={{this.controlID}}' class="button">Update</a> |
+                                <button class="delete-button" onclick="deleteControl({{this.controlID}})">Delete</button> |
                                 <a href='read_control?controlID={{this.controlID}}' class="button">Details</a>
                             </td>
                         </tr>
@@ -57,5 +57,6 @@
             <a href="/create_control" class="button">Create New Control</a>
         </div>
     </div>
+    <script src="/js/delete_control.js"></script>
 </body>
 </html>

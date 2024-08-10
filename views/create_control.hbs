@@ -29,7 +29,7 @@
             </div>
             <div>
                 <label for="input-user">User:</label>
-                <select id="input-user" name="input-user" required>
+                <select id="input-user" name="input-user">
                     <option value="">Select a User</option>
                     {{#each users}}
                     <option value="{{this.userID}}">{{this.username}}</option>
@@ -38,7 +38,7 @@
             </div>  
             <div>
                 <label for="input-type">Device Type:</label>
-                <select id="input-type" name="input-type" required>
+                <select id="input-type" name="input-type">
                     <option value="">Select a Device Type</option>
                     {{#each types}}
                     <option value="{{this.typeID}}">{{this.typeName}}</option>

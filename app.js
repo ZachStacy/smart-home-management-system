@@ -387,6 +387,15 @@ app.get('/create_control', function(req, res) {
 // Route for adding a new control
 app.post('/add_control', function(req, res) {
     let data = req.body;
+    if(data['input-user'] === ''){
+        data['input-user'] = null;
+    }
+    if(data['input-type'] === ''){
+        data['input-type'] = null;
+    }
+    if(data['input-endTime'] === '0000-00-00 00:00:00'){
+        data['input-endTime'] = null;
+    } 
 
     let query = `INSERT INTO Controls (controlName, startTime, endTime, rep, userID, typeID) VALUES (?, ?, ?, ?, ?, ?)`;
     let values = [data['input-controlName'], data['input-startTime'], data['input-endTime'], 
@@ -401,6 +410,99 @@ app.post('/add_control', function(req, res) {
         }
     });
 });
+
+// Route to handle deleting control via AJAX
+app.delete('/delete-control-ajax', function(req, res) {
+    let controlID = parseInt(req.body.id);
+    let deleteQuery = 'DELETE FROM Controls WHERE controlID = ?';
+
+    db.pool.query(deleteQuery, [controlID], function(error, results) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+// Route to edit control details
+app.get('/edit_control', function(req, res) {
+    let controlID = req.query.controlID;
+    if (!controlID) {
+        res.send("Control ID is missing.");
+        return;
+    }
+
+    let query1 = "SELECT Controls.controlID, Controls.controlName, Controls.startTime, Controls.endTime, "
+               + "Controls.rep, Users.userID, Users.username, DeviceTypes.typeID, DeviceTypes.typeName "
+               + "FROM Controls LEFT JOIN Users ON Controls.userID = Users.userID LEFT JOIN DeviceTypes "
+               + "ON Controls.typeID = DeviceTypes.typeID WHERE Controls.controlID = ?";
+    let query2 = "SELECT * FROM Users";
+    let query3 = "SELECT * FROM DeviceTypes";
+    db.pool.query(query1, [controlID], function(error, controlRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (controlRows.length === 0) {
+            res.send("Control not found.");
+            return;
+        }
+
+        db.pool.query(query2, function(error, userRows, fields) {
+            if (error) {
+                console.error(error);
+                res.send("Error occurred while querying the database.");
+                return;
+            }
+            db.pool.query(query3, function(error, typeRows, fields) {
+                if (error) {
+                    console.error(error);
+                    res.send("Error occurred while querying the database.");
+                    return;
+                }
+                res.render('edit_control', { title: 'Edit Control', control: controlRows[0], users: userRows, types: typeRows });
+            })
+        })
+        
+    });
+});
+
+// Route to handle form submission for edit_control to update controls
+// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
+app.post('/update_control', function(req, res) {
+    let controlID = req.body['input-update-controlID'];
+    let controlName = req.body['input-update-controlName'];
+    let startTime = req.body['input-update-startTime'];
+    let endTime = req.body['input-update-endTime'];
+    let rep = req.body['input-update-rep'];
+    let userID = req.body['input-update-user'];
+    let typeID = req.body['input-update-type'];
+    
+    if(userID === ''){
+        userID = null;
+    }
+    if(typeID === ''){
+        typeID = null;
+    }
+
+    // Use query
+    let query_update = "UPDATE Controls SET controlName = ?, startTime = ?, endTime = ?, rep = ?, userID = ?, typeID = ? WHERE controlID = ?";
+
+    db.pool.query(query_update, [controlName, startTime, endTime, rep, userID, typeID, controlID], function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/controls');
+        }
+    });
+});
+
+
+
 
 
 /*
