@@ -404,7 +404,7 @@ app.post('/add_control', function(req, res) {
 
 
 /*
----  Control Routes Section  ---
+---  Device Type Routes Section  ---
 */
 
 // Route for Device Types
@@ -467,6 +467,65 @@ app.post('/add_type', function(req, res) {
         }
     });
 });
+
+// Route to handle deleting device type via AJAX
+app.delete('/delete-type-ajax', function(req, res) {
+    let typeID = parseInt(req.body.id);
+    let deleteQuery = 'DELETE FROM DeviceTypes WHERE typeID = ?';
+
+    db.pool.query(deleteQuery, [typeID], function(error, results) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+// Route to edit device type details
+app.get('/edit_type', function(req, res) {
+    let ID = req.query.typeID;
+    if (!ID) {
+        res.send("Device Type ID is missing.");
+        return;
+    }
+
+    let query = "SELECT * FROM DeviceTypes WHERE typeID = ?";
+    db.pool.query(query, [ID], function(error, typeRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (typeRows.length === 0) {
+            res.send("Device Type not found.");
+            return;
+        }
+        res.render('edit_type', { title: 'Edit Device Type', type: typeRows[0] });
+    });
+});
+
+// Route to handle form submission for edit_type to update device types
+// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
+app.post('/update_type', function(req, res) {
+    let typeID = req.body['input-update-typeID'];
+    let typeName = req.body['input-update-typeName'];
+
+    // Use query
+    let query_update = "UPDATE DeviceTypes SET typeName = ? WHERE typeID = ?";
+
+    db.pool.query(query_update, [typeName, typeID], function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/deviceTypes');
+        }
+    });
+});
+
+
 
 
 /*

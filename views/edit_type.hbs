@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Device Type</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Device Type ID {{type.typeID}}</h1>
+        <form action="/update_type" method="POST">
+            <input type="hidden" id="input-update-typeID" name="input-update-typeID" value="{{type.typeID}}">
+            <div>
+                <label for="input-update-typeName">typeName: </label>
+                <input type="text" id="input-update-typeName" name="input-update-typeName" value="{{type.typeName}}" required>
+            </div>
+            <div>
+                <button type="submit" class="button">Update Device Type</button>
+            </div>
+        </form>
+        <a href="/deviceTypes" class="button">Back To Device Types</a>
+    </div>
+</body>
+</html>

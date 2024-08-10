@@ -21,7 +21,7 @@
         <div class="section" style="margin-top: 50px;">
             <h1 class="page-title">Device Types</h1>
             <div class="table-container">
-                <table>
+                <table id="types-table">
                     <thead>
                         <tr>
                             <th>Type ID</th>
@@ -31,12 +31,12 @@
                     </thead>
                     <tbody>
                         {{#each deviceTypes}}
-                        <tr>
+                        <tr data-value="{{this.typeID}}">
                             <td>{{this.typeID}}</td>
                             <td>{{this.typeName}}</td>
                             <td>
-                                <a href='update_deviceType.html?typeID={{this.typeID}}' class="button">Update</a> |
-                                <a href='delete_deviceType.html?typeID={{this.typeID}}' class="button">Delete</a> |
+                                <a href='edit_type?typeID={{this.typeID}}' class="button">Update</a> |
+                                <button class="delete-button" onclick="deleteType({{this.typeID}})">Delete</button> |
                                 <a href='read_type?typeID={{this.typeID}}' class="button">Details</a>
                             </td>
                         </tr>
@@ -47,5 +47,6 @@
             </div>
         </div>
     </div>
+    <script src="/js/delete_type.js"></script>
 </body>
 </html>
