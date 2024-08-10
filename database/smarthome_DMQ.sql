@@ -95,21 +95,29 @@ SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Devic
 LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
 LEFT JOIN Controls ON Operations.controlID = Controls.controlID;
 
--- read or get information of one Control for the update form
-SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Devices.deviceName FROM Operations
+-- read information of one operation, this is more detailed than the Operations page
+SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Controls.startTime, 
+    Controls.endTime, Controls.rep, Devices.deviceName, Devices.status 
+FROM Operations
 LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
 LEFT JOIN Controls ON Operations.controlID = Controls.controlID 
 WHERE operationID = :operationID_selected;
-
--- the following will help to fill the dropdown list
-SELECT * FROM Controls;  
-SELECT * FROM Devices;
 
 -- insert an oeperation
 INSERT INTO Operations (timeStamp, controlID, deviceID)
 VALUES (:timeStamp_from_input, 
         (SELECT controlID FROM Controls WHERE controlName = :controlName_selected),
         (SELECT deviceID FROM Devices WHERE deviceName = :deviceName_selected));
+
+
+-- table information for update page
+SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Devices.deviceName FROM Operations
+LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
+LEFT JOIN Controls ON Operations.controlID = Controls.controlID
+WHERE operationID = :operationID_selected;
+-- and the following will help to fill the dropdown list when update
+SELECT * FROM Controls;  
+SELECT * FROM Devices;
 
 -- update an operation
 UPDATE Operations 

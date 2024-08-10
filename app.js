@@ -660,7 +660,8 @@ app.get('/read_operation', function(req, res) {
     }
 
     let opQuery = "SELECT Operations.operationID, Operations.timeStamp, Devices.deviceName, "
-                + "Controls.controlName FROM Operations LEFT JOIN Devices ON "
+                + "Devices.status, Controls.controlName, Controls.startTime, Controls.endTime, "
+                + "Controls.rep FROM Operations LEFT JOIN Devices ON "
                 + "Operations.deviceID = Devices.deviceID LEFT JOIN Controls ON "
                 + "Operations.controlID = Controls.controlID WHERE Operations.operationID = ?";
 
