@@ -33,13 +33,13 @@
                     </thead>
                     <tbody>
                         {{#each data}}
-                        <tr>
+                        <tr data-value="{{this.deviceID}}">
                             <td>{{this.deviceID}}</td>
                             <td>{{this.deviceName}}</td>
                             <td>{{this.status}}</td>
                             <td>{{this.typeName}}</td>
                             <td>
-                                <a href='update_device?deviceID={{this.deviceID}}' class="button">Update</a> |
+                                <a href='edit_device?deviceID={{this.deviceID}}' class="button">Update</a> |
                                 <button class="delete-button" onclick="deleteDevice({{this.deviceID}})">Delete</button> |
                                 <a href='read_device?deviceID={{this.deviceID}}' class="button">Details</a>
                             </td>

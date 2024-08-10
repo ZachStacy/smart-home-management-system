@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Device</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Device ID {{device.deviceID}}</h1>
+        <form action="/update_device" method="POST">
+            <input type="hidden" id="input-update-deviceID" name="input-update-deviceID" value="{{device.deviceID}}">
+            <div>
+                <label for="input-update-deviceName">Device Name: </label>
+                <input type="text" id="input-update-deviceName" name="input-update-deviceName" value="{{device.deviceName}}" required>
+            </div>
+            <div>
+                <label for="input-update-status">Status:</label>
+                <input type="text" id="input-update-status" name="input-update-status" value="{{device.status}}">
+            </div>  
+            <div>
+                <label for="input-update-typeID">Device Type:</label>
+                <select id="input-update-typeID" name="input-update-typeID">
+                    <option value="{{device.typeID}}">{{device.typeName}}&#40;OG&#41;</option>
+                    {{#each types}}
+                    <option value="{{this.typeID}}">{{this.typeName}}</option>
+                    {{/each}}
+                    <option value="">&#40;Remove Type&#41;</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="button">Update Device</button>
+            </div>
+        </form>
+        <a href="/devices" class="button">Back To Devices</a>
+    </div>
+</body>
+</html>

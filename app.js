@@ -7,7 +7,7 @@ const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
 
 const app = express();
-const PORT = 62829;
+const PORT = 62819;
 
 // Handlebars
 app.engine('.hbs', engine({
@@ -221,6 +221,9 @@ app.get('/create_device', function(req, res) {
 // Route for adding a new device
 app.post('/add_device', function(req, res) {
     let data = req.body;
+    if(data['input-typeID'] === ''){
+        data['input-typeID'] = null;
+    }
 
     let query = `INSERT INTO Devices (deviceName, status, typeID) VALUES (?, ?, ?)`;
     let values = [data['input-deviceName'], data['input-status'], data['input-typeID']];
@@ -246,6 +249,65 @@ app.delete('/delete-device-ajax', function(req, res) {
             res.sendStatus(400);
         } else {
             res.sendStatus(204);
+        }
+    });
+});
+
+// Route to edit device details
+app.get('/edit_device', function(req, res) {
+    let dID = req.query.deviceID;
+    if (!dID) {
+        res.send("Device ID is missing.");
+        return;
+    }
+
+    let query1 = "SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName "
+               + "FROM Devices LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID " 
+               + "WHERE Devices.deviceID = ?";
+    let query2 = "SELECT * FROM DeviceTypes";
+    
+    db.pool.query(query1, [dID], function(error, deviceRows, fields) {
+        if (error) {
+            console.error(error);
+            res.send("Error occurred while querying the database.");
+            return;
+        }
+        if (deviceRows.length === 0) {
+            res.send("Device not found.");
+            return;
+        }
+        db.pool.query(query2, function(error, typeRows, fields) {
+            if (error) {
+                console.error(error);
+                res.send("Error occurred while querying the database.");
+                return;
+            }
+            res.render('edit_device', { title: 'Edit Device', device: deviceRows[0], types: typeRows });
+        })
+        
+    });
+});
+
+// Route to handle form submission for edit_device to update devices
+// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
+app.post('/update_device', function(req, res) {
+    let deviceID = req.body['input-update-deviceID'];
+    let deviceName = req.body['input-update-deviceName'];
+    let status = req.body['input-update-status'];
+    let typeID = req.body['input-update-typeID'];
+    if(typeID === ''){
+        typeID = null;
+    }
+
+    // Use query
+    let query_update = "UPDATE Devices SET deviceName = ?, status = ?, typeID = ? WHERE deviceID = ?";
+
+    db.pool.query(query_update, [deviceName, status, typeID, deviceID], function(error, rows, fields) {
+        if (error) {
+            console.error(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/devices');
         }
     });
 });
@@ -546,7 +608,7 @@ app.get('/edit_operation', function(req, res) {
                     res.send("Error occurred while querying the database.");
                     return;
                 }
-                res.render('edit_operation', { operation: opRows[0], devices: deviceRows, controls: controlRows });
+                res.render('edit_operation', { title: 'Edit Operation', operation: opRows[0], devices: deviceRows, controls: controlRows });
             })
         })
         

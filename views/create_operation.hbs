@@ -17,7 +17,7 @@
             </div>
             <div>
                 <label for="input-device">Device:</label>
-                <select id="input-device" name="input-device">
+                <select id="input-device" name="input-device" required>
                     <option value="">Select a Device</option>
                     {{#each devices}}
                     <option value="{{this.deviceID}}">{{this.deviceName}}</option>
@@ -26,7 +26,7 @@
             </div>  
             <div>
                 <label for="input-control">Control:</label>
-                <select id="input-control" name="input-control">
+                <select id="input-control" name="input-control" required>
                     <option value="">Select a Control</option>
                     {{#each controls}}
                     <option value="{{this.controlID}}">{{this.controlName}}</option>
@@ -38,7 +38,7 @@
             </div>
             </form>
         </div>
-        <a href="/controls" class="button">Back To Controls</a>
+        <a href="/operations" class="button">Back To Operations</a>
     </div>
 </body>
 </html>
