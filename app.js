@@ -1,3 +1,17 @@
+
+/*
+Citation for the general code guidelines
+  Date: 08-10-2024
+  Based on https://canvas.oregonstate.edu/courses/1967354/pages/exploration-developing-in-node-dot-js?module_item_id=24460848
+      and https://github.com/osu-cs340-ecampus/nodejs-starter-app
+      All of the following code was developed from these guidelines 
+*/
+
+
+
+
+
+
 /*
 ---  Set up Section  ---
 */
@@ -7,7 +21,7 @@ const { engine } = require('express-handlebars');
 const db = require('./database/db-connector');
 
 const app = express();
-const PORT = 62999;
+const PORT = 62819;
 
 // Handlebars
 app.engine('.hbs', engine({
@@ -138,7 +152,6 @@ app.get('/edit_user', function(req, res) {
 });
 
 // Route to handle form submission for edit_user to update users
-// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_user', function(req, res) {
     let userID = req.body['input-update-userID'];
     let username = req.body['input-update-username'];
@@ -289,7 +302,6 @@ app.get('/edit_device', function(req, res) {
 });
 
 // Route to handle form submission for edit_device to update devices
-// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_device', function(req, res) {
     let deviceID = req.body['input-update-deviceID'];
     let deviceName = req.body['input-update-deviceName'];
@@ -471,7 +483,6 @@ app.get('/edit_control', function(req, res) {
 });
 
 // Route to handle form submission for edit_control to update controls
-// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_control', function(req, res) {
     let controlID = req.body['input-update-controlID'];
     let controlName = req.body['input-update-controlName'];
@@ -609,7 +620,6 @@ app.get('/edit_type', function(req, res) {
 });
 
 // Route to handle form submission for edit_type to update device types
-// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_type', function(req, res) {
     let typeID = req.body['input-update-typeID'];
     let typeName = req.body['input-update-typeName'];
@@ -778,7 +788,6 @@ app.get('/edit_operation', function(req, res) {
 });
 
 // Route to handle form submission for edit_user to update users
-// source : https://stackoverflow.com/questions/41168942/how-to-input-a-nodejs-variable-into-an-sql-query
 app.post('/update_operation', function(req, res) {
     let operationID = req.body['input-update-opID'];
     let timeStamp = req.body['input-update-timeStamp'];
