@@ -43,7 +43,7 @@ LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID;
 -- read or get one device's data for the update form
 SELECT Devices.deviceID, Devices.deviceName, Devices.status, DeviceTypes.typeName FROM Devices
 LEFT JOIN DeviceTypes ON Devices.typeID = DeviceTypes.typeID
-WHERE Devices.deviceID = deviceID_selected;
+WHERE Devices.deviceID = :deviceID_selected;
 
 -- create a new device type
 INSERT INTO Devices (deviceName, status, typeID) VALUES (:deviceName_from_input, :status_from_input, (SELECT typeID FROM DeviceTypes WHERE typeName = :typeName_selected));
@@ -69,16 +69,12 @@ Controls.rep, Users.username, DeviceTypes.typeName
 FROM Controls
 LEFT JOIN Users ON Controls.userID = Users.userID
 LEFT JOIN DeviceTypes ON Controls.typeID = DeviceTypes.typeID
-WHERE Controls.controlID = controlID_selected;
+WHERE Controls.controlID = :controlID_selected;
 
--- create a new control and automatically create an operation
+-- create a new control
 INSERT INTO Controls (controlName, startTime, endTime, rep, userID, typeID) 
 VALUES (:controlName_from_input, :startTime_from_input, :endTime_from_input, :rep_from_input, 
         (SELECT userID FROM Users WHERE username = :username_selected), (SELECT typeID FROM DeviceTypes WHERE typeName = :typeName_selected));
-INSERT INTO Operations (timeStamp, controlID, deviceID)
-VALUES (:timeStamp_from_input, 
-        (SELECT controlID FROM Controls WHERE controlName = :the_same_controlName_from_input),
-        (SELECT deviceID FROM Devices WHERE deviceName = :deviceName_selected));
 
 -- delete a control, corresponding operations will be deleted as ON DELETE CASCADE is set
 DELETE FROM Controls WHERE controlID = :controlID_selected;
@@ -89,21 +85,25 @@ SET controlName = :controlName_from_input,
     startTime = :startTime_from_input 
     endTime = :endTime_from_input rep = :rep_from_input 
     userID = (SELECT userID FROM Users WHERE username = :username_selected)
-    typeID = (SELECT typeID FROM DeviceTypes WHERE typeName = :typeName_selected);
+    typeID = (SELECT typeID FROM DeviceTypes WHERE typeName = :typeName_selected)
+    WHERE controlID = :controlID_selected;
 
 
 --Opeartions
 --Browse all operations latest first
-SELECT Operations.operationID AS ID, Operations.timeStamp AS OperationTime, Controls.controlName as Control,
-     Controls.startTime AS Start, Controls.endTime AS End, Controls.rep AS Repetition, Devices.deviceName AS Device FROM Operations
+SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Devices.deviceName FROM Operations
 LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
 LEFT JOIN Controls ON Operations.controlID = Controls.controlID;
 
 -- read or get information of one Control for the update form
-SELECT * FROM Operations WHERE operationID = :operationID_selected;
--- the following will serve as information to help the user to choose attributes for update of Operations
-SELECT * FROM Controls WHERE controlID = :controlID_drop_down;     
-SELECT * FROM Devices WHERE deviceID = :deviceID_drop_down;
+SELECT Operations.operationID, Operations.timeStamp, Controls.controlName, Devices.deviceName FROM Operations
+LEFT JOIN Devices ON Operations.deviceID = Devices.deviceID
+LEFT JOIN Controls ON Operations.controlID = Controls.controlID 
+WHERE operationID = :operationID_selected;
+
+-- the following will help to fill the dropdown list
+SELECT * FROM Controls;  
+SELECT * FROM Devices;
 
 -- insert an oeperation
 INSERT INTO Operations (timeStamp, controlID, deviceID)
@@ -115,7 +115,8 @@ VALUES (:timeStamp_from_input,
 UPDATE Operations 
 SET timeStamp = :timeStamp_from_input, 
     controlID = (SELECT controlID FROM Controls WHERE controlName = :controlName_selected)
-    deviceID = (SELECT deviceID FROM Devices WHERE deviceName = :deviceName_selected);
+    deviceID = (SELECT deviceID FROM Devices WHERE deviceName = :deviceName_selected)
+    WHERE operationID = :operationID_selected;
 
 --Delete an operation
 DELETE FROM Operations WHERE operationID = :operationID_selected;
